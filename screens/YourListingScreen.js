@@ -1,0 +1,108 @@
+import React from 'react';
+import {
+  StyleSheet,
+  TextInput,
+  Button,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import {Redirect} from 'react-router-native';
+import * as FB from 'expo-facebook';
+import {ShowListing} from '../ft/YourListingNetwork';
+
+const FACEBOOK_APP_ID = '381958572469333';
+
+class YourListingScreen extends React.Component {
+  state = {
+    listings: [],
+  };
+
+  componentDidMount() {
+    ShowListing()
+      .then(listings => this.setState({listings}));
+    }
+
+  render() {
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.button} onPress={this.renting}>
+            <Image
+              style={{width: 100, height: 100, margin: 10}}
+              source={{
+                uri: 'https://image.flaticon.com/icons/png/512/35/35569.png',
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+        {this.state.listings.map(listing => (
+          <View key={listing.id} style={styles.listing}>
+            <Image
+              style={{width: 100, height: 100}}
+              source={{
+                uri: listing.images[0],
+              }}
+            />
+            <View style={styles.listingBody}>
+              <Text style={styles.btnText}>{listing.title}</Text>
+              <Button title="Swiped" />
+              <Button title="Details" />
+            </View>
+          </View>
+        ))}
+        {this.state.isRenting ? <Redirect to="/theLock" /> : null}
+        {this.state.isLooking ? <Redirect to="/theLock" /> : null}
+      </ScrollView>
+    );
+  }
+}
+export default YourListingScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingTop: 25,
+  },
+  button: {
+    height: 150,
+    width: 150,
+    textAlign: 'center',
+    borderWidth: 1,
+    borderColor: 'black',
+    borderStyle: 'dashed',
+    backgroundColor: 'lightgray',
+    padding: 15,
+    borderRadius: 10,
+  },
+  text: {
+    marginRight: 15,
+    marginLeft: 15,
+    textAlign: 'center',
+    fontSize: 30,
+  },
+  btnText: {
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 30,
+  },
+  listing: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 5,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 10,
+  },
+  listingBody: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+});

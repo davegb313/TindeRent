@@ -15,6 +15,8 @@ const FACEBOOK_APP_ID = '381958572469333';
 class RentorlookScreen extends React.Component {
   state = {};
 
+  renting = ()=> this.setState({isRenting : true})
+  looking = ()=> this.setState({isLooking : true})
 
   render() {
     return (
@@ -31,7 +33,7 @@ class RentorlookScreen extends React.Component {
             />
             <Text style={styles.btnText}>I'm renting</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.logIn}>
+          <TouchableOpacity style={styles.button} onPress={this.looking}>
             <Image
               style={{width: 150, height: 150}}
               source={{
@@ -40,7 +42,8 @@ class RentorlookScreen extends React.Component {
             />
             <Text style={styles.btnText}>I'm looking for a rent</Text>
           </TouchableOpacity>
-        {this.state.isRealyLoggedIn ? <Redirect to="/theLock" /> : null}
+        {this.state.isRenting ? <Redirect to="/theLock" /> : null}
+        {this.state.isLooking ? <Redirect to="/theLock" /> : null}
       </View>
     );
   }

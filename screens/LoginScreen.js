@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, TextInput, TouchableOpacity, Text, View} from 'react-native';
 import {Redirect} from 'react-router-native';
-import {Login, SignUp} from '../ft/network';
 import * as FB from 'expo-facebook';
 const FACEBOOK_APP_ID = '381958572469333';
 
