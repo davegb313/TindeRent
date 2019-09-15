@@ -32,5 +32,10 @@ app.post('/makelisting', (req, res)=>{
     .catch(err => console.error(err)|| res.status(500).json({ err }))
 });
 
+// app.get('/yourlisting', (req, res)=>{
+//   Listing.findOne({ where: {id: req.body.author} })
+//     .then(listings => res.json(listings))
+//     .catch(err=> console.error(err)|| res.status(500).json({ err }))
+// });
 
 app.listen(port, () => console.log(`example on port ${port}`));

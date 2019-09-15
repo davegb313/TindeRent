@@ -12,12 +12,11 @@ import {
 } from 'react-native';
 import {Redirect} from 'react-router-native';
 import * as FB from 'expo-facebook';
-import {CreateListing} from '../ft/MakeListingNetwork';
+import {CreateListing} from '../ft/network';
 import * as Font from 'expo-font';
 import MapView, {Marker} from 'react-native-maps';
 import Geohash from 'latlon-geohash';
 
-const FACEBOOK_APP_ID = '381958572469333';
 const {height, width} = Dimensions.get('window');
 
 class MakeListingScreen extends React.Component {
@@ -48,17 +47,19 @@ class MakeListingScreen extends React.Component {
 
   setTitle = title => this.setState({title});
   setDescription = description => this.setState({description});
-  // setTitle = e => { this.setState({ title: e.target.value })
-  //   // scrollYPos = this.state.screenHeight * 1;
-  //   // this.scroller.scrollTo({x: 0, y: scrollYPos});
-  // };
+  move2 = () => this.scroll.scrollTo({x: width, duration: 1000});
+  move3 = () => this.scroll.scrollTo({x: width * 2, duration: 1000});
 
-  createListing = ()=> CreateListing(this.state);
+  createListing = () => CreateListing(this.state).then(r=> console.log(r)).then(()=>this.setState({}))
 
   render() {
     console.log(this.state);
     return (
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        ref={node => this.scroll = node}
+      >
         <View style={styles.container}>
           <Text style={this.state.fontLoaded ? styles.title : null}>
             Type here a title of your posting
@@ -70,7 +71,11 @@ class MakeListingScreen extends React.Component {
             placeholderTextColor="#227"
             style={styles.input}
           />
-          <TouchableOpacity style={styles.button} onPress={this.move2}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.move2}
+            disabled={this.state.title ? false : true}
+          >
             <Text style={{fontSize: 25}}>&gt;&gt;</Text>
           </TouchableOpacity>
         </View>
@@ -88,7 +93,11 @@ class MakeListingScreen extends React.Component {
             placeholderTextColor="#227"
             style={styles.descriptionInput}
           />
-          <TouchableOpacity style={styles.button} onPress={this.move3}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.move3}
+            disabled={this.state.description ? false : true}
+          >
             <Text style={{fontSize: 25}}>&gt;&gt;</Text>
           </TouchableOpacity>
         </View>
@@ -120,17 +129,20 @@ class MakeListingScreen extends React.Component {
           <TouchableOpacity
             style={styles.submitButton}
             onPress={this.createListing}
-            disabled={
-              this.state.geohash && this.state.title && this.state.description
-                ? false
-                : true
-            }
+            disabled={this.state.geohash ? false : true}
           >
-            <Text style={{fontSize: 25}}>Create posting</Text>
+            <Text
+              style={
+                this.state.fontLoaded
+                  ? {fontSize: 25, fontFamily: 'Manjari-Regular'}
+                  : null
+              }
+            >
+              Create posting
+            </Text>
           </TouchableOpacity>
         </View>
-        {this.state.isRenting ? <Redirect to="/theLock" /> : null}
-        {this.state.isLooking ? <Redirect to="/theLock" /> : null}
+        {this.state.isRenting ? <Redirect to="/yourlisting" /> : null}
       </ScrollView>
     );
   }

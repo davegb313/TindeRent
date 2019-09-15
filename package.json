@@ -11,6 +11,7 @@
     "expo": "^34.0.1",
     "expo-facebook": "~6.0.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "latlon-geohash": "^2.0.0",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",

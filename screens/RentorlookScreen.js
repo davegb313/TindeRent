@@ -15,8 +15,9 @@ const FACEBOOK_APP_ID = '381958572469333';
 class RentorlookScreen extends React.Component {
   state = {};
 
-  renting = ()=> this.setState({isRenting : true})
-  looking = ()=> this.setState({isLooking : true})
+  renting = () => this.setState({isRenting: true});
+
+  looking = () => {}
 
   render() {
     return (
@@ -24,26 +25,25 @@ class RentorlookScreen extends React.Component {
         <Text style={styles.text}>
           Are you renting or looking for a rent?
         </Text>
-          <TouchableOpacity style={styles.button} onPress={this.renting}>
-            <Image
-              style={{width: 150, height: 150}}
-              source={{
-                uri: 'https://worthrealestate.com.au/wp-content/uploads/2018/07/rent.png',
-              }}
-            />
-            <Text style={styles.btnText}>I'm renting</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.looking}>
-            <Image
-              style={{width: 150, height: 150}}
-              source={{
-                uri: 'http://apartmentsindianapolis.com/wp-content/uploads/2018/01/The-Best-Time-to-Look-for-New-Apartments.jpg',
-              }}
-            />
-            <Text style={styles.btnText}>I'm looking for a rent</Text>
-          </TouchableOpacity>
-        {this.state.isRenting ? <Redirect to="/theLock" /> : null}
-        {this.state.isLooking ? <Redirect to="/theLock" /> : null}
+        <TouchableOpacity style={styles.button} onPress={this.renting}>
+          <Image
+            style={{width: 150, height: 150}}
+            source={{
+              uri: 'https://worthrealestate.com.au/wp-content/uploads/2018/07/rent.png',
+            }}
+          />
+          <Text style={styles.btnText}>I'm renting</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={this.looking}>
+          <Image
+            style={{width: 150, height: 150}}
+            source={{
+              uri: 'http://apartmentsindianapolis.com/wp-content/uploads/2018/01/The-Best-Time-to-Look-for-New-Apartments.jpg',
+            }}
+          />
+          <Text style={styles.btnText}>I'm looking for a rent</Text>
+        </TouchableOpacity>
+        {this.state.isRenting ? <Redirect to="/yourlisting" /> : null}
       </View>
     );
   }
