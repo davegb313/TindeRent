@@ -19,15 +19,15 @@ class YourListingScreen extends React.Component {
   state = {
     images: [],
     listings: [],
+    sessionProfile: [],
   };
 
   addListing = () => this.setState({isAdding: true});
+  toDetails = () => this.setState({toDetails: true});
 
   componentDidMount() {
-    ShowListing()
-      .then(listings => this.setState({listings}))
-      .then(sessionProfile => this.setState({sessionProfile}));
-    }
+    ShowListing().then(listings => this.setState({listings}));
+  }
 
   render() {
     return (
@@ -42,9 +42,7 @@ class YourListingScreen extends React.Component {
             />
           </TouchableOpacity>
         </View>
-        {this.state.listings.map(listing =>
-          listing.author === this.state.sessionProfile.id ?
-          (
+        {this.state.listings.map(listing => (
           <View key={listing.id} style={styles.listing}>
             <Image
               style={{width: 100, height: 100}}
@@ -55,12 +53,12 @@ class YourListingScreen extends React.Component {
             <View style={styles.listingBody}>
               <Text style={styles.btnText}>{listing.title}</Text>
               <Button title="Swiped" />
-              <Button title="Details" />
+              <Button title="Details" onPress={this.toDetails} />
             </View>
           </View>
-        ) : null)}
-        {this.state.isAdding ? <Redirect to="/makelisting" /> : null}
-        {this.state.isLooking ? <Redirect to="/theLock" /> : null}
+        ))}
+        {this.state.isAdding ? <Redirect to='/makelisting' /> : null}
+        {this.state.toDetails ? <Redirect to='/yourlisting/:id' /> : null}
       </ScrollView>
     );
   }

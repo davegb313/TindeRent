@@ -8,60 +8,65 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import {Redirect} from 'react-router-native';
 import * as FB from 'expo-facebook';
-import {ShowListing} from '../ft/network';
+import Carousel from '../ft/carousel';
+import ShowOneListing from '../ft/network'
 
-const FACEBOOK_APP_ID = '381958572469333';
+const images = [
+  {
+    source: {
+      uri: 'https://cdn.pixabay.com/photo/2017/05/19/07/34/teacup-2325722__340.jpg',
+    },
+  },
+  {
+    source: {
+      uri: 'https://cdn.pixabay.com/photo/2017/05/02/22/43/mushroom-2279558__340.jpg',
+    },
+  },
+  {
+    source: {
+      uri: 'https://cdn.pixabay.com/photo/2017/05/18/21/54/tower-bridge-2324875__340.jpg',
+    },
+  },
+  {
+    source: {
+      uri: 'https://cdn.pixabay.com/photo/2017/05/16/21/24/gorilla-2318998__340.jpg',
+    },
+  },
+];
 
-class YourListingScreen extends React.Component {
+class YourOneListingScreen extends React.Component {
   state = {
     images: [],
+    listing: [],
   };
 
   addListing = () => this.setState({isAdding: true});
 
-  componentDidMount() {
-    ShowListing()
-      .then(listings => this.setState({listings}));
-    }
+  // componentDidMount() {
+  //   ShowOneListing(this.props.match.params.id).then(listing => this.setState({listing}));
+  // }
 
   render() {
     return (
       <ScrollView>
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={this.addListing}>
-            <Image
-              style={{width: 100, height: 100, margin: 10}}
-              source={{
-                uri: 'https://image.flaticon.com/icons/png/512/35/35569.png',
-              }}
-            />
-          </TouchableOpacity>
+        <Carousel images={images} />
+
+        <View style={styles.listingBody}>
+          <Text style={styles.btnText}>{this.state.listing.title}</Text>
+          <Button title="Swiped" />
+          <Button title="Details" />
         </View>
-        {this.state.listings.map(listing => (
-          <View key={listing.id} style={styles.listing}>
-            <Image
-              style={{width: 100, height: 100}}
-              source={{
-                uri: 'https://www.supplyforce.com/ASSETS/WEB_THEMES//ECOMMERCE_STD_TEMPLATE_V2/images/NoImage.png',
-              }}
-            />
-            <View style={styles.listingBody}>
-              <Text style={styles.btnText}>{listing.title}</Text>
-              <Button title="Swiped" />
-              <Button title="Details" />
-            </View>
-          </View>
-        ))}
         {this.state.isAdding ? <Redirect to="/makelisting" /> : null}
         {this.state.isLooking ? <Redirect to="/theLock" /> : null}
       </ScrollView>
     );
   }
 }
-export default YourListingScreen;
+export default YourOneListingScreen;
 
 const styles = StyleSheet.create({
   container: {

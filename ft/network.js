@@ -29,7 +29,7 @@ export const LoginFB = () =>
   });
 
 export const ShowListing = () =>
-  fetch(networkBase + '/yourlisting/').then(response => response.json()).then(()=> sessionProfile);
+  fetch(networkBase + '/yourlisting/').then(response => response.json());
 
 export const CreateListing = props =>
   fetch(networkBase + '/makelisting/', {
@@ -49,6 +49,6 @@ export const CreateListing = props =>
   }).then(createResponse => createResponse.text());
 
 export const ShowOneListing = () =>
-  fetch(networkBase + '/yourlisting/', {
-    body: JSON.stringify({author: sessionProfile.id}),
-  }).then(response => response.json());
+  fetch(networkBase + '/yourlisting/' + this.props)
+      .then(console.log(this.props))
+      .then(response => response.json());

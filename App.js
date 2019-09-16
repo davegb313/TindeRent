@@ -12,11 +12,11 @@ class App extends React.Component {
     return (
       <NativeRouter>
         <Switch>
-          <Route exact path='/' component={LoginScreen} />
+          <Route exact path='/yourlisting/:id' component={LoginScreen} />
           <Route exact path='/rentorlook' component={RentorlookScreen} />
           <Route exact path='/yourlisting' component={YourListingScreen} />
           <Route exact path='/makelisting' component={MakeListingScreen} />
-          <Route exact path='/yourlisting' component={YourOneListingScreen} />
+          <Route exact path='/' component={YourOneListingScreen} />
         </Switch>
       </NativeRouter>
     );
