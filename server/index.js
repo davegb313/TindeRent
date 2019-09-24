@@ -11,8 +11,8 @@ const {Listing} = modelsFactory(connection, ORM);
 
 app.use(express.json());
 
-const fbAuth = (req, res, next)=> {
-  console.log(req.headers);
+const fbAuth = (req, res, next) => {
+  console.log(req.get('Authorization'));
   // Promise.request(`https://graph.facebook.com/me?access_token=${token}`)
   // req to fb graph /me
   // 200-> authd, req.session = profile (response from call), next()
@@ -21,7 +21,7 @@ const fbAuth = (req, res, next)=> {
     id: '2292117644339273',
   };
 
-  next()
+  next();
 };
 
 connection
@@ -50,8 +50,11 @@ app.post('/makelisting', fbAuth, (req, res) => {
 app.get('/yourlisting/:id', (req, res) => {
   Listing.findByPk(1 * req.params.id)
     .then(listing => res.json(listing))
-    .catch(err => console.error(err) ||
-        res.status(500).json({message: 'read listing failed'}));
+    .catch(
+      err =>
+        console.error(err) ||
+        res.status(500).json({message: 'read listing failed'}),
+    );
 });
 
 app.listen(port, () => console.log(`example on port ${port}`));

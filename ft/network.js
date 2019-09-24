@@ -29,14 +29,19 @@ export const LoginFB = () =>
   });
 
 export const ShowListing = () =>
-  fetch(networkBase + '/yourlisting/').then(response => response.json());
+  fetch(networkBase + '/yourlisting/', {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + sessionToken,
+    },
+  }).then(response => response.json());
 
 export const CreateListing = props =>
   fetch(networkBase + '/makelisting/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Autorizantion: 'Bearer ' + sessionToken,
+      Authorization: 'Bearer ' + sessionToken,
     },
     body: JSON.stringify({
       title: props.title,
@@ -49,6 +54,6 @@ export const CreateListing = props =>
   }).then(createResponse => createResponse.text());
 
 export const ShowOneListing = () =>
-  fetch(networkBase + '/yourlisting/' + this.props)
+  fetch(networkBase + '/yourlisting/' + this.props.match.params.id)
       .then(console.log(this.props))
       .then(response => response.json());

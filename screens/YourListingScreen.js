@@ -15,15 +15,18 @@ import {ShowListing} from '../ft/network';
 
 const FACEBOOK_APP_ID = '381958572469333';
 
+
+
 class YourListingScreen extends React.Component {
   state = {
     images: [],
     listings: [],
     sessionProfile: [],
+    redirectingString: '',
   };
 
   addListing = () => this.setState({isAdding: true});
-  toDetails = () => this.setState({toDetails: true});
+  toDetails = listingID => this.setState({toDetails: listingID});
 
   componentDidMount() {
     ShowListing().then(listings => this.setState({listings}));
@@ -51,14 +54,14 @@ class YourListingScreen extends React.Component {
               }}
             />
             <View style={styles.listingBody}>
-              <Text style={styles.btnText}>{listing.title}</Text>
+              <Text style={styles.btnText}>{listing.title} {listing.id}</Text>
               <Button title="Swiped" />
-              <Button title="Details" onPress={this.toDetails} />
+              <Button title="Details" onPress={()=> this.toDetails(listing.id)} />
             </View>
           </View>
         ))}
+        {this.state.toDetails ? <Redirect to={`/yourlisting/${this.state.toDetails}`} /> : null}
         {this.state.isAdding ? <Redirect to='/makelisting' /> : null}
-        {this.state.toDetails ? <Redirect to='/yourlisting/:id' /> : null}
       </ScrollView>
     );
   }
