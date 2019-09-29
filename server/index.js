@@ -5,6 +5,7 @@ const ORM = require('sequelize');
 const connection = new ORM(
   process.env.DATABASE_URL || 'postgres://admin:admin@localhost:5432/tinderent',
 );
+const request = require('request-promise');
 
 const modelsFactory = require('./models');
 const {Listing} = modelsFactory(connection, ORM);
@@ -12,16 +13,19 @@ const {Listing} = modelsFactory(connection, ORM);
 app.use(express.json());
 
 const fbAuth = (req, res, next) => {
-  console.log(req.get('Authorization'));
-  // Promise.request(`https://graph.facebook.com/me?access_token=${token}`)
+  token = req.get('Authorization').split(' ')[1];
+  request(`https://graph.facebook.com/me?access_token=${token}`,)
+         .then(response => {
+    if (res.status > 200)
+      console.error(err) || res.status(401).end();
+    else {
+      req.session = JSON.parse(response);
+      next();
+    }
+  });
   // req to fb graph /me
   // 200-> authd, req.session = profile (response from call), next()
   // any error -> 401 / 403
-  req.session = {
-    id: '2292117644339273',
-  };
-
-  next();
 };
 
 connection
@@ -55,6 +59,13 @@ app.get('/yourlisting/:id', (req, res) => {
         console.error(err) ||
         res.status(500).json({message: 'read listing failed'}),
     );
+});
+
+app.post('/updatelisting/:id', (req, res) => {
+  console.log(req.params.id);
+  Listing.update(req.body, {where: {id: (1*req.params.id)}})
+    .then(response => res.status(201).json({created: response.dataValues}))
+    .catch(err => console.error(err) || res.status(500).json({err}));
 });
 
 app.listen(port, () => console.log(`example on port ${port}`));

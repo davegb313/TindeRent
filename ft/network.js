@@ -1,4 +1,4 @@
-const networkBase = 'http://192.168.1.100:4000';
+const networkBase = 'http://192.168.10.148:4000';
 import * as FB from 'expo-facebook';
 
 const FACEBOOK_APP_ID = '381958572469333';
@@ -53,7 +53,30 @@ export const CreateListing = props =>
     }),
   }).then(createResponse => createResponse.text());
 
-export const ShowOneListing = () =>
-  fetch(networkBase + '/yourlisting/' + this.props.match.params.id)
-      .then(console.log(this.props))
+export const ShowOneListing = props => {
+
+  fetch(networkBase + '/yourlisting/' + props)
+      .then(console.log(props))
       .then(response => response.json());
+}
+
+export const UpdateListing = props =>
+  fetch(networkBase + '/updatelisting/' + props.id, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + sessionToken,
+    },
+    body: JSON.stringify({
+      title: props.title,
+      description: props.description,
+      price: 1*props.price,
+      location: props.geohash,
+      lat: props.latitude,
+      lon: props.longitude,
+      author: sessionProfile.id,
+      floor: props.floor,
+      buildingFloor: props.buildingFloor,
+      balcony: props.balcony,
+    }),
+  }).then(createResponse => createResponse.text());

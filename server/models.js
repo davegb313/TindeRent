@@ -16,7 +16,7 @@ module.exports = (connection, ORM) => {
         allowNull: false,
       },
       price: {
-        type: ORM.INTEGER,
+        type: ORM.TEXT,
       },
       images: {
         type: ORM.ARRAY(ORM.TEXT),
@@ -38,13 +38,13 @@ module.exports = (connection, ORM) => {
         allowNull: false,
       },
       floor: {
-        type: ORM.INTEGER,
+        type: ORM.TEXT,
       },
       buildingFloor: {
-        type: ORM.INTEGER,
+        type: ORM.TEXT,
       },
       balcony: {
-        type: ORM.INTEGER,
+        type: ORM.TEXT,
       },
     },
     {freezeTableName: true},

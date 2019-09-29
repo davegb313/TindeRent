@@ -14,8 +14,11 @@ import {Redirect} from 'react-router-native';
 import MapView, {Marker} from 'react-native-maps';
 import * as FB from 'expo-facebook';
 import Carousel from '../ft/carousel';
-import ShowOneListing from '../ft/network';
-const networkBase = 'http://192.168.1.100:4000';
+import {ShowOneListing} from '../ft/network';
+import {UpdateListing} from '../ft/network';
+import Camera from '../ft/camera';
+
+const networkBase = 'http://192.168.10.148:4000';
 const {height, width} = Dimensions.get('window');
 const images = [
   {
@@ -31,6 +34,11 @@ class YourOneListingScreen extends React.Component {
     listing: {},
   };
 
+  cameraOn = (cameraInfo) => this.setState({ isCameraOn: cameraInfo ? false : true });
+  backToListing = () => this.setState({ isBackToListing: true});
+
+  saveChanges = () => UpdateListing(this.state.listing).then(r=> console.log(r));
+
   setTitle = () => this.state.isTitle ?
                    this.setState({ isTitle: false }) :
                    this.setState({ isTitle: true });
@@ -39,13 +47,12 @@ class YourOneListingScreen extends React.Component {
   setPrice = () => this.state.isPrice ?
                    this.setState({ isPrice: false }) :
                    this.setState({ isPrice: true });
-  savePrice = price => {this.setState(prevState=> ({listing: {...prevState.listing, price}}));
-console.log(this.state.listing.price);}
+  savePrice = price => this.setState(prevState=> ({listing: {...prevState.listing, price}}));
 
   setDesc = () => this.state.isDesc ?
                    this.setState({ isDesc: false }) :
                    this.setState({ isDesc: true });
-  saveDesc = desc => this.setState(prevState=> ({listing: {...prevState.listing, desc}}));
+  saveDesc = description => this.setState(prevState=> ({listing: {...prevState.listing, description}}));
 
   setFloor = () => this.state.isFloor ?
                    this.setState({ isFloor: false }) :
@@ -65,13 +72,14 @@ console.log(this.state.listing.price);}
   componentDidMount() {
     // ShowOneListing()
     fetch(networkBase + '/yourlisting/' + this.props.match.params.id)
-        .then(console.log(this.props.match.params.id))
         .then(response => response.json())
         .then(listing => this.setState({listing}));
   }
 
   render() {
-    console.log(this.props);
+    if (this.state.isCameraOn) {
+      return (<Camera isCameraOn={this.cameraOn} />)
+    } else {
     return (
       <ScrollView>
         <Carousel images={this.state.listing.images ? this.state.listing.images : images } />
@@ -178,15 +186,16 @@ console.log(this.state.listing.price);}
           )}
         </View>
         <View style={styles.btns}>
-          <Button title="Back" />
-          <Button title="Save Changes" />
-          <Button title="Swiped" />
+          <Button title="Back" onPress={this.backToListing}/>
+          <Button title="Save Changes" onPress={this.saveChanges} />
+          <Button title="Swiped" onPress={()=> this.cameraOn(this.state.cameraInfo)}  />
           <Button title="Delete" />
         </View>
-        {this.state.isAdding ? <Redirect to="/makelisting" /> : null}
+        {this.state.isBackToListing ? <Redirect to="/yourlisting" /> : null}
         {this.state.isLooking ? <Redirect to="/theLock" /> : null}
       </ScrollView>
     );
+  }
   }
 }
 export default YourOneListingScreen;

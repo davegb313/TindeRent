@@ -50,10 +50,9 @@ class MakeListingScreen extends React.Component {
   move2 = () => this.scroll.scrollTo({x: width, duration: 1000});
   move3 = () => this.scroll.scrollTo({x: width * 2, duration: 1000});
 
-  createListing = () => CreateListing(this.state).then(r=> console.log(r)).then(()=>this.setState({}))
+  createListing = () => CreateListing(this.state).then(r=> console.log(r)).then(()=>this.setState({isRenting: true}))
 
   render() {
-    console.log(this.state);
     return (
       <ScrollView
         horizontal={true}
