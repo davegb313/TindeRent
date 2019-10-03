@@ -80,3 +80,19 @@ export const UpdateListing = props =>
       balcony: props.balcony,
     }),
   }).then(createResponse => createResponse.text());
+
+  export const CreateAcc = props =>
+    fetch(networkBase + '/makeuser/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + sessionToken,
+      },
+      body: JSON.stringify({
+        name: props.name,
+        description: props.description,
+        email: props.email,
+        phone: props.phone,
+        FBid: sessionProfile.id,
+      }),
+    }).then(createResponse => createResponse.text());

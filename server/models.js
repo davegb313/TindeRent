@@ -49,6 +49,40 @@ module.exports = (connection, ORM) => {
     },
     {freezeTableName: true},
   );
+  const User = connection.define(
+    'user',
+    {
+      id: {
+        type: ORM.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      name: {
+        type: ORM.TEXT,
+        allowNull: false,
+      },
+      description: {
+        type: ORM.TEXT,
+        allowNull: false,
+      },
+      email: {
+        type: ORM.TEXT,
+        allowNull: false,
+      },
+      images: {
+        type: ORM.ARRAY(ORM.TEXT),
+      },
+      phone: {
+        type: ORM.TEXT,
+        allowNull: false,
+      },
+      FBid: {
+        type: ORM.TEXT,
+        allowNull: false,
+      }
+    },
+    {freezeTableName: true},
+  );
 
-  return {Listing};
+  return {Listing, User};
 };

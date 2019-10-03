@@ -17,7 +17,7 @@ class RentorlookScreen extends React.Component {
 
   renting = () => this.setState({isRenting: true});
 
-  looking = () => {}
+  looking = () => this.setState({isLooking: true});
 
   render() {
     return (
@@ -44,6 +44,7 @@ class RentorlookScreen extends React.Component {
           <Text style={styles.btnText}>I'm looking for a rent</Text>
         </TouchableOpacity>
         {this.state.isRenting ? <Redirect to="/yourlisting" /> : null}
+        {this.state.isLooking ? <Redirect to="/makeuser" /> : null}
       </View>
     );
   }

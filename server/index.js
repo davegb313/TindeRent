@@ -8,7 +8,7 @@ const connection = new ORM(
 const request = require('request-promise');
 
 const modelsFactory = require('./models');
-const {Listing} = modelsFactory(connection, ORM);
+const {Listing, User} = modelsFactory(connection, ORM);
 
 app.use(express.json());
 
@@ -35,7 +35,8 @@ connection
 
 app.get('/hydrate', (req, res) => {
   Listing.sync({force: true})
-    .then(() => res.json({message: 'tables created'}))
+    .then(()=> User.sync({ force: true }))
+    .then(() => res.json({message: 'tables Listing and User created'}))
     .catch(err => console.error(err) || res.status(500).json({err}));
 });
 
@@ -65,6 +66,18 @@ app.post('/updatelisting/:id', (req, res) => {
   console.log(req.params.id);
   Listing.update(req.body, {where: {id: (1*req.params.id)}})
     .then(response => res.status(201).json({created: response.dataValues}))
+    .catch(err => console.error(err) || res.status(500).json({err}));
+});
+
+app.post('/makeuser', fbAuth, (req, res) => {
+  User.create(req.body)
+    .then(response => res.status(201).json({created: response.dataValues}))
+    .catch(err => console.error(err) || res.status(500).json({err}));
+});
+
+app.get('/users', (req, res) => {
+  User.findAll()
+    .then(users => res.json(users))
     .catch(err => console.error(err) || res.status(500).json({err}));
 });
 

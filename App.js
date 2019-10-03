@@ -6,6 +6,7 @@ import RentorlookScreen from './screens/RentorlookScreen';
 import YourListingScreen from './screens/YourListingScreen';
 import MakeListingScreen from './screens/MakeListingScreen';
 import YourOneListingScreen from './screens/YourOneListingScreen';
+import MakeUserScreen from './screens/MakeUserScreen';
 
 class App extends React.Component {
   render() {
@@ -17,6 +18,9 @@ class App extends React.Component {
           <Route exact path='/yourlisting' component={YourListingScreen} />
           <Route exact path='/makelisting' component={MakeListingScreen} />
           <Route exact path='/yourlisting/:id' component={YourOneListingScreen} />
+
+
+          <Route exact path='/makeuser' component={MakeUserScreen} />
         </Switch>
       </NativeRouter>
     );
