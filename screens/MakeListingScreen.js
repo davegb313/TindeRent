@@ -24,7 +24,7 @@ class MakeListingScreen extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      'Manjari-Regular': require('../assets/fonts/Manjari-Regular.ttf'),
+      'GrandHotel-Regular': require('../assets/fonts/GrandHotel-Regular.ttf'),
     });
 
     this.setState({fontLoaded: true});
@@ -133,7 +133,7 @@ class MakeListingScreen extends React.Component {
             <Text
               style={
                 this.state.fontLoaded
-                  ? {fontSize: 25, fontFamily: 'Manjari-Regular'}
+                  ? {fontSize: 25, fontFamily: 'GrandHotel-Regular'}
                   : null
               }
             >
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   title: {
-    fontFamily: 'Manjari-Regular',
+    fontFamily: 'GrandHotel-Regular',
     textAlign: 'center',
     fontSize: 40,
   },

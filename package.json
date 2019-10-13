@@ -25,7 +25,12 @@
     "react-router-native": "^5.0.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
-    "sequelize": "^5.17.0"
+    "sequelize": "^5.17.0",
+    "rnpm": {
+        "assets": [
+            "./assets/fonts"
+          ]
+        }
   },
   "devDependencies": {
     "babel-preset-expo": "^6.0.0"

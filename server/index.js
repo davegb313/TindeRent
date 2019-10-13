@@ -63,11 +63,16 @@ app.get('/yourlisting/:id', (req, res) => {
 });
 
 app.post('/updatelisting/:id', (req, res) => {
-  console.log(req.params.id);
   Listing.update(req.body, {where: {id: (1*req.params.id)}})
     .then(response => res.status(201).json({created: response.dataValues}))
     .catch(err => console.error(err) || res.status(500).json({err}));
 });
+
+app.get('/checkuser', fbAuth, (req, res) => {
+  User.findAll({where: {FBid: req.session.id}})
+    .then(user => res.json(user))
+    .catch(err => console.error(err) || res.status(500).json({err}));
+})
 
 app.post('/makeuser', fbAuth, (req, res) => {
   User.create(req.body)

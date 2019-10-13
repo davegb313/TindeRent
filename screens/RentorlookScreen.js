@@ -9,15 +9,20 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Redirect} from 'react-router-native';
-import * as FB from 'expo-facebook';
-const FACEBOOK_APP_ID = '381958572469333';
+import {CheckUser} from '../ft/network';
 
 class RentorlookScreen extends React.Component {
-  state = {};
+  state = {
+    user: {},
+  };
 
   renting = () => this.setState({isRenting: true});
 
-  looking = () => this.setState({isLooking: true});
+  looking = async () => {
+    const response = await CheckUser();
+    console.log(response[0].FBid);
+      response ? this.setState({isExists: true}) : this.setState({isLooking: true});
+  };
 
   render() {
     return (
@@ -44,6 +49,7 @@ class RentorlookScreen extends React.Component {
           <Text style={styles.btnText}>I'm looking for a rent</Text>
         </TouchableOpacity>
         {this.state.isRenting ? <Redirect to="/yourlisting" /> : null}
+        {this.state.isExists ? <Redirect to="/alllistings" /> : null}
         {this.state.isLooking ? <Redirect to="/makeuser" /> : null}
       </View>
     );

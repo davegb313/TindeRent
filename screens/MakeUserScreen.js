@@ -24,7 +24,7 @@ class MakeListingScreen extends React.Component {
 
   async componentDidMount() {
     await Font.loadAsync({
-      'Manjari-Regular': require('../assets/fonts/Manjari-Regular.ttf'),
+      'GrandHotel-Regular': require('../assets/fonts/GrandHotel-Regular.ttf'),
     });
 
     this.setState({fontLoaded: true});
@@ -38,7 +38,7 @@ class MakeListingScreen extends React.Component {
   move2three = () => this.scroll.scrollTo({x: width * 2, duration: 1000});
   move2four = () => this.scroll.scrollTo({x: width * 3, duration: 1000});
 
-  createAcc = () => CreateAcc(this.state).then(r=> console.log(r)).then(()=>this.setState({isRenting: true}))
+  createAcc = () => CreateAcc(this.state).then(r=> console.log(r)).then(()=>this.setState({isCreated: true}))
 
   render() {
     return (
@@ -132,7 +132,7 @@ class MakeListingScreen extends React.Component {
             <Text
               style={
                 this.state.fontLoaded
-                  ? {fontSize: 25, fontFamily: 'Manjari-Regular'}
+                  ? {fontSize: 25, fontFamily: 'GrandHotel-Regular'}
                   : null
               }
             >
@@ -140,7 +140,7 @@ class MakeListingScreen extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
-        {this.state.isRenting ? <Redirect to="/yourlisting" /> : null}
+        {this.state.isCreated ? <Redirect to="/alllistings" /> : null}
       </ScrollView>
     );
   }
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   title: {
-    fontFamily: 'Manjari-Regular',
+    fontFamily: 'GrandHotel-Regular',
     textAlign: 'center',
     fontSize: 40,
   },

@@ -13,16 +13,12 @@ import {Redirect} from 'react-router-native';
 import * as FB from 'expo-facebook';
 import {ShowListing} from '../ft/network';
 
-const FACEBOOK_APP_ID = '381958572469333';
 
 
 
 class YourListingScreen extends React.Component {
   state = {
-    images: [],
     listings: [],
-    sessionProfile: [],
-    redirectingString: '',
   };
 
   addListing = () => this.setState({isAdding: true});

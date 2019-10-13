@@ -54,11 +54,10 @@ export const CreateListing = props =>
   }).then(createResponse => createResponse.text());
 
 export const ShowOneListing = props => {
-
   fetch(networkBase + '/yourlisting/' + props)
-      .then(console.log(props))
-      .then(response => response.json());
-}
+    .then(console.log(props))
+    .then(response => response.json());
+};
 
 export const UpdateListing = props =>
   fetch(networkBase + '/updatelisting/' + props.id, {
@@ -70,7 +69,7 @@ export const UpdateListing = props =>
     body: JSON.stringify({
       title: props.title,
       description: props.description,
-      price: 1*props.price,
+      price: 1 * props.price,
       location: props.geohash,
       lat: props.latitude,
       lon: props.longitude,
@@ -81,18 +80,26 @@ export const UpdateListing = props =>
     }),
   }).then(createResponse => createResponse.text());
 
-  export const CreateAcc = props =>
-    fetch(networkBase + '/makeuser/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + sessionToken,
-      },
-      body: JSON.stringify({
-        name: props.name,
-        description: props.description,
-        email: props.email,
-        phone: props.phone,
-        FBid: sessionProfile.id,
-      }),
-    }).then(createResponse => createResponse.text());
+export const CheckUser = () =>
+  fetch(networkBase + '/checkuser/', {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + sessionToken,
+    },
+  }).then(response => response.json());
+
+export const CreateAcc = props =>
+  fetch(networkBase + '/makeuser/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + sessionToken,
+    },
+    body: JSON.stringify({
+      name: props.name,
+      description: props.description,
+      email: props.email,
+      phone: props.phone,
+      FBid: sessionProfile.id,
+    }),
+  }).then(createResponse => createResponse.text());
