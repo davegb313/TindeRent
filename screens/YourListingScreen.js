@@ -50,7 +50,7 @@ class YourListingScreen extends React.Component {
               }}
             />
             <View style={styles.listingBody}>
-              <Text style={styles.btnText}>{listing.title} {listing.id}</Text>
+              <Text style={styles.btnText}>{listing.title}</Text>
               <Button title="Swiped" />
               <Button title="Details" onPress={()=> this.toDetails(listing.id)} />
             </View>

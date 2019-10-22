@@ -83,6 +83,28 @@ module.exports = (connection, ORM) => {
     },
     {freezeTableName: true},
   );
-
-  return {Listing, User};
+  const Swipes = connection.define(
+    'swipes',
+    {
+      id: {
+        type: ORM.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+      },
+      isLiked: {
+        type: ORM.BOOLEAN,
+        allowNull: false,
+      },
+      userID: {
+        type: ORM.TEXT,
+        allowNull: false,
+      },
+      listingID: {
+        type: ORM.INTEGER,
+        allowNull: false,
+      },
+    },
+    {freezeTableName: true},
+  );
+  return {Listing, User, Swipes};
 };

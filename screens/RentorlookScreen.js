@@ -20,8 +20,7 @@ class RentorlookScreen extends React.Component {
 
   looking = async () => {
     const response = await CheckUser();
-    console.log(response[0].FBid);
-      response ? this.setState({isExists: true}) : this.setState({isLooking: true});
+      response.length ? this.setState({isExists: true}) : this.setState({isLooking: true});
   };
 
   render() {

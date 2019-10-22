@@ -103,3 +103,18 @@ export const CreateAcc = props =>
       FBid: sessionProfile.id,
     }),
   }).then(createResponse => createResponse.text());
+
+
+export const MakeSwipe = props =>
+  fetch(networkBase + '/makeswipe', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + sessionToken,
+    },
+    body: JSON.stringify({
+      isLiked: props.isLiked,
+      userID: sessionProfile.id,
+      listingID: props.listingID,
+    })
+  })

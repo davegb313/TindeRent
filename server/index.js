@@ -8,24 +8,28 @@ const connection = new ORM(
 const request = require('request-promise');
 
 const modelsFactory = require('./models');
-const {Listing, User} = modelsFactory(connection, ORM);
+const {Listing, User, Swipes} = modelsFactory(connection, ORM);
 
 app.use(express.json());
 
 const fbAuth = (req, res, next) => {
-  token = req.get('Authorization').split(' ')[1];
-  request(`https://graph.facebook.com/me?access_token=${token}`,)
-         .then(response => {
-    if (res.status > 200)
-      console.error(err) || res.status(401).end();
-    else {
-      req.session = JSON.parse(response);
-      next();
-    }
-  });
+  // token = req.get('Authorization').split(' ')[1];
+  // request(`https://graph.facebook.com/me?access_token=${token}`,)
+  //        .then(response => {
+  //   if (res.status > 200)
+  //     console.error(err) || res.status(401).end();
+  //   else {
+  //     req.session = JSON.parse(response);
+  //     next();
+  //   }
+  // });
   // req to fb graph /me
   // 200-> authd, req.session = profile (response from call), next()
   // any error -> 401 / 403
+  req.session = {
+    id: '2292117644339273',
+  }
+  next();
 };
 
 connection
@@ -36,7 +40,8 @@ connection
 app.get('/hydrate', (req, res) => {
   Listing.sync({force: true})
     .then(()=> User.sync({ force: true }))
-    .then(() => res.json({message: 'tables Listing and User created'}))
+    .then(()=> Swipes.sync({ force: true}))
+    .then(() => res.json({message: 'tables Listing, User and Swipes created'}))
     .catch(err => console.error(err) || res.status(500).json({err}));
 });
 
@@ -83,6 +88,18 @@ app.post('/makeuser', fbAuth, (req, res) => {
 app.get('/users', (req, res) => {
   User.findAll()
     .then(users => res.json(users))
+    .catch(err => console.error(err) || res.status(500).json({err}));
+});
+
+app.post('/makeswipe', fbAuth, (req, res) => {
+  Swipes.create(req.body)
+    .then(response => res.status(201).json({created: response.dataValues}))
+    .catch(err => console.error(err) || res.status(500).json({err}));
+});
+
+app.get('/allswipes', (req, res) => {
+  Swipes.findAll()
+    .then(swipes => res.json(swipes))
     .catch(err => console.error(err) || res.status(500).json({err}));
 });
 

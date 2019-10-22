@@ -17,7 +17,6 @@ class App extends React.Component {
   render() {
     return (
       <NativeRouter>
-        <Header />
         <Switch>
           <Route exact path='/' component={LoginScreen} />
           <Route exact path='/rentorlook' component={RentorlookScreen} />
